@@ -16,8 +16,14 @@ def safe_float(val):
 def generar_dashboard():
     print("Iniciando procesamiento de datos...")
     
-    try:
+ try:
         df = pd.read_excel('data/data.ods', engine='odf')
+        print("====== DIAGNÓSTICO DE DATOS ======")
+        print(f"Total de filas leídas en el Excel: {len(df)}")
+        print("Columnas detectadas (Índice - Nombre):")
+        for i, col in enumerate(df.columns):
+            print(f"  [{i}] -> {col}")
+        print("==================================")
     except Exception as e:
         print(f"Error crítico al leer el archivo: {e}")
         sys.exit(1)
