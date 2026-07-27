@@ -2,6 +2,7 @@ import pandas as pd
 import json
 from datetime import date, datetime, timedelta
 import sys
+import os
 
 def safe_float(val):
     """Convierte de forma segura los valores de coordenadas a decimales."""
@@ -672,7 +673,7 @@ def generar_dashboard():
                 csvRows.push(values.join(','));
             }});
 
-            const blob = new Blob(["\\uFEFF" + csvRows.join('\\n')], {{ type: 'text/csv;charset=utf-8;' }});
+            const blob = new Blob(["\uFEFF" + csvRows.join('\n')], {{ type: 'text/csv;charset=utf-8;' }});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.setAttribute('href', url);
@@ -698,9 +699,12 @@ def generar_dashboard():
 </html>"""
 
     html_final = dashboard_html.replace('{data_json}', data_json)
-    with open('dashboard_conectividad.html', 'w', encoding='utf-8') as f:
+    
+    os.makedirs('public', exist_ok=True)
+    with open('public/index.html', 'w', encoding='utf-8') as f:
         f.write(html_final)
-    print("Dashboard final actualizado: Error de superposición de texto en gráficas de barras solucionado.")
+        
+    print("Dashboard generado exitosamente en public/index.html")
 
 if __name__ == "__main__":
     generar_dashboard()
